@@ -3,8 +3,7 @@
     --primary-bg: #0A192F;
     --text-color: #E0E0E0;
     --accent-color: #64FFDA;
-    --service-color: #FF5722;
-    --card-bg: rgba(23, 42, 69, 0.85);
+    --card-bg: rgba(23, 42, 69, 0.9);
 }
 
 body, html {
@@ -18,37 +17,7 @@ body, html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Intro Overlay for the button */
-.intro-overlay {
-    position: absolute;
-    bottom: 12%;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.glowing-btn {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #fff;
-    background: var(--service-color);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    box-shadow: 0 0 10px var(--service-color), 0 0 20px var(--service-color), 0 0 30px var(--accent-color);
-    transition: all 0.3s ease-in-out;
-    animation: pulse 2s infinite;
-}
-
-/* ... (pulse animation and btn:hover styles remain) ... */
-
-/* Main App Container for 3D Scene */
+/* Main 3D container */
 #app-container {
     position: absolute;
     top: 0;
@@ -56,81 +25,100 @@ body, html {
     width: 100%;
     height: 100%;
     z-index: 1;
+    cursor: default; /* Default cursor for the 3D space */
 }
 
-/* Fullscreen Service Overlay */
-#service-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(10, 25, 47, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    overflow-y: auto;
-    /* Fade Transition */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.6s ease-out;
+#app-container canvas {
+    /* When canvas is clickable, this will be overridden by JS */
 }
 
-#service-overlay:not(.hidden) {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.6s ease-in;
-}
-
-.overlay-content {
-    width: 90%;
-    max-width: 600px;
-    padding: 30px;
-    border-radius: 15px;
-    background: var(--card-bg);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    color: var(--text-color); /* Default text color for the form */
-}
-
-/* Text Readability Improvements */
-.overlay-content .step-guide {
-    color: var(--accent-color);
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 25px;
+/* Header */
+.main-header {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
+    z-index: 100;
+    pointer-events: none;
 }
 
-.overlay-content .form-group label,
-.overlay-content .form-group-checkbox label {
-    color: #FFFFFF; /* Bright white for labels */
-    font-weight: 500;
+.main-header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 0 10px var(--accent-color);
 }
 
-.overlay-content .terms-box {
-    background-color: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 15px;
+.main-header p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+/* UI Buttons */
+.intro-overlay {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.glowing-btn {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: #fff;
+    background: var(--accent-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--accent-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.glowing-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--accent-color);
+}
+
+#back-btn {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 8px;
-    color: #E0E0E0; /* Light gray for terms text */
+    cursor: pointer;
+    z-index: 101;
+    transition: background-color 0.3s;
 }
 
-.overlay-content .terms-box strong {
-    color: #FFFFFF;
-    font-weight: bold;
+#back-btn:hover {
+    background: rgba(255,255,255,0.25);
 }
 
-/* Form elements styling */
-input[type="text"], input[type="tel"], input[type="date"], select {
-    width: 100%;
-    padding: 12px;
-    background-color: rgba(0,0,0,0.2);
-    border: 1px solid #455A64;
-    border-radius: 5px;
-    color: #FFFFFF;
+/* 3D Labels */
+.label {
+    color: #FFF;
+    padding: 5px 12px;
+    background: rgba(10, 25, 47, 0.7);
+    border: 1px solid rgba(100, 255, 218, 0.5);
+    border-radius: 8px;
+    font-size: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    white-space: nowrap;
+    text-shadow: 0 0 5px #000;
 }
 
-/* ... (other styles like buttons, hidden class, etc., can be tidied up if needed) ... */
+.label.visible {
+    opacity: 1;
+}
+
+/* Hidden class for overlays */
+.hidden {
+    display: none !important;
+}
