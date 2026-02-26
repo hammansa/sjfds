@@ -6,12 +6,13 @@ class FDS_App_3D {
             return;
         }
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.model = null;
         
-        this.initialCameraPosition = new THREE.Vector3(0, 0, 8); // Initial camera position
-        this.formViewCameraPosition = new THREE.Vector3(0, -1, 4); // Zoom-in position
+        // Adjust camera positions for a much closer view
+        this.initialCameraPosition = new THREE.Vector3(0, -1, 5); // Start closer
+        this.formViewCameraPosition = new THREE.Vector3(0, -1.5, 3); // Zoom-in even more
 
         this.init();
     }
@@ -33,6 +34,8 @@ class FDS_App_3D {
         this.animate();
 
         window.addEventListener('resize', this.onWindowResize.bind(this));
+        // No mouse move when form is open
+        this.isInteractive = true;
         this.container.addEventListener('mousemove', this.onMouseMove.bind(this));
     }
 
@@ -40,21 +43,20 @@ class FDS_App_3D {
         const loader = new THREE.GLTFLoader();
         loader.load('./Meshy_AI_Cosmic_Exploration_0226042126_generate.glb', (gltf) => {
             this.model = gltf.scene;
-            // Adjusted scale and position for a larger view
-            this.model.scale.set(2.5, 2.5, 2.5);
-            this.model.position.set(0, -3, 0);
+            // Significantly increase scale and adjust position
+            this.model.scale.set(4, 4, 4);
+            this.model.position.set(0, -3.5, 0);
             this.scene.add(this.model);
         }, undefined, (error) => {
             console.error('An error happened during model loading:', error);
         });
     }
 
-    // Method to handle camera animations
     animateCamera(targetPosition, duration, onComplete) {
         const currentPos = this.camera.position.clone();
         new TWEEN.Tween(currentPos)
             .to(targetPosition, duration)
-            .easing(TWEEN.Easing.Cubic.InOut)
+            .easing(TWEEN.Easing.Circular.InOut) // A more dynamic easing
             .onUpdate(() => {
                 this.camera.position.copy(currentPos);
             })
@@ -62,13 +64,13 @@ class FDS_App_3D {
             .start();
     }
     
-    // Animate to the close-up form view
     animateToFormView(callback) {
+        this.isInteractive = false;
         this.animateCamera(this.formViewCameraPosition, 1200, callback);
     }
     
-    // Animate back to the initial view
     animateToIntroView(callback) {
+        this.isInteractive = true;
         this.animateCamera(this.initialCameraPosition, 1200, callback);
     }
 
@@ -79,28 +81,28 @@ class FDS_App_3D {
     }
 
     onMouseMove(event) {
-        if (this.model && this.camera.position.equals(this.initialCameraPosition)) {
+        if (this.model && this.isInteractive) {
             const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
             const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
             
-            this.model.rotation.y = mouseX * 0.5;
-            this.model.rotation.x = mouseY * 0.2;
+            // Reduced rotation for a subtler effect
+            this.model.rotation.y = mouseX * 0.25;
+            this.model.rotation.x = mouseY * 0.1;
         }
     }
 
     animate() {
         requestAnimationFrame(this.animate.bind(this));
-        TWEEN.update(); // Required for TWEEN animations
+        TWEEN.update(); 
         this.renderer.render(this.scene, this.camera);
     }
 }
 
 class DriverApplicationHandler {
-    // ... (DriverApplicationHandler class remains unchanged) ...
+    // ... (DriverApplicationHandler class is unchanged) ...
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const appContainer = document.getElementById('app-container');
     const overlay = document.getElementById('service-overlay');
     const introOverlay = document.querySelector('.intro-overlay');
     const openDriverAppBtn = document.getElementById('open-driver-app-btn');
@@ -116,11 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const closeOverlay = () => {
-        appContainer.classList.remove('hidden');
-        fdsApp3D.animateToIntroView(() => {
-            introOverlay.classList.remove('hidden');
-        });
+        introOverlay.classList.remove('hidden');
         overlay.classList.add('hidden');
+        fdsApp3D.animateToIntroView(); // Animate camera back
         driverApp.reset();
     };
 
@@ -128,9 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     openDriverAppBtn.addEventListener('click', () => {
         introOverlay.classList.add('hidden');
-        fdsApp3D.animateToFormView(() => {
-            appContainer.classList.add('hidden');
-            overlay.classList.remove('hidden');
-        });
+        fdsApp3D.animateToFormView(); // Animate camera forward
+        overlay.classList.remove('hidden'); // Show overlay simultaneously
     });
 });
