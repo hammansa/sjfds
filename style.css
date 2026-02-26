@@ -1,1 +1,34 @@
-/* Add styles here */
+/* ... (existing styles) ... */
+
+.hidden { display: none !important; } /* Utility class */
+
+/* === UPDATED: Form Element Styling === */
+
+/* ... (input, select, etc. styles remain the same) ... */
+
+.form-group-checkbox, .radio-group {
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.form-group-checkbox input[type="checkbox"],
+.radio-group input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+}
+
+.form-group-checkbox label,
+.radio-group label {
+    margin-bottom: 0; /* Override default label margin */
+    font-size: 0.95rem;
+    color: #eee;
+}
+
+.terms-box { /* ... */ }
+.submit-btn, .secondary-btn { /* ... */ }
+.form-navigation { /* ... */ }

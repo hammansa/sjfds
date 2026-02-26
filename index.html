@@ -1,14 +1,66 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <!-- ... (head content remains the same) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>FDS - 3D Mobile Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div id="app-container"></div>
+
+    <div id="service-overlay" class="hidden">
+        <div class="overlay-content">
+            <!-- ... (client form and general overlay structure remains the same) ... -->
+
+            <!-- Driver Application Container -->
+            <div id="driver-application-container">
+                <!-- Step 1 & 1.5 (No changes) -->
+
+                <!-- == UPDATED: Step 2 with Certificate Section == -->
+                <div id="driver-step-2" class="driver-step">
+                    <p class="step-guide">업무 선택 및 약관 동의</p>
+                    <div class="form-group">
+                        <label>희망 업무 선택 (다중 선택 가능)</label>
+                        <div id="service-selection-checkboxes"></div>
+                    </div>
+
+                    <!-- Initially hidden certificate section -->
+                    <div id="certificate-section" class="form-group hidden">
+                        <label style="color: var(--service-color);">병원동행 파트너 필수 자격</label>
+                        <div class="radio-group">
+                            <input type="radio" id="cert-caregiver" name="certificate" value="caregiver">
+                            <label for="cert-caregiver">요양보호사</label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" id="cert-social-worker" name="certificate" value="social-worker">
+                            <label for="cert-social-worker">사회복지사</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>선택 업무 주의사항</label>
+                        <div id="service-terms-display" class="terms-box"></div>
+                    </div>
+                    <div class="form-group-checkbox">
+                        <input type="checkbox" id="terms-agree" disabled>
+                        <label for="terms-agree">상기 주의사항을 모두 확인하고 동의합니다.</label>
+                    </div>
+                    <div class="form-navigation">
+                        <button type="button" id="driver-step-2-back" class="secondary-btn">이전</button>
+                        <button type="button" id="driver-step-2-next" class="submit-btn" disabled>다음</button>
+                    </div>
+                </div>
+
+                <!-- Step 3 (No changes) -->
+            </div>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
