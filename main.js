@@ -1,4 +1,3 @@
-
 class FDS_App_3D {
     constructor(containerSelector) {
         this.container = document.querySelector(containerSelector);
@@ -275,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // This is where we will instantiate our app
     const appContainer = document.getElementById('app-container');
     const overlay = document.getElementById('service-overlay');
+    const openDriverAppBtn = document.getElementById('open-driver-app-btn');
     
     // Initialize the 3D background
     new FDS_App_3D('#app-container');
@@ -294,15 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const driverApp = new DriverApplicationHandler(overlay, serviceOptions, closeOverlay);
 
-    // This is a placeholder for a button or event that will open the driver application form
-    // For now, let's assume a button with id="open-driver-app" exists or we can trigger it manually.
-    // Example: document.getElementById('open-driver-app-btn').addEventListener('click', () => {
-    //    overlay.classList.remove('hidden');
-    // });
-    
-    // For demonstration, let's open it via a click on the canvas or a temporary button.
-    appContainer.addEventListener('click', () => {
-         overlay.classList.remove('hidden');
+    openDriverAppBtn.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
     });
-
 });

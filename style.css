@@ -1,34 +1,73 @@
-/* ... (existing styles) ... */
+/* ... (previous styles remain the same) ... */
 
-.hidden { display: none !important; } /* Utility class */
-
-/* === UPDATED: Form Element Styling === */
-
-/* ... (input, select, etc. styles remain the same) ... */
-
-.form-group-checkbox, .radio-group {
+.intro-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
-    align-items: center;
-    margin: 12px 0;
-    background-color: rgba(0,0,0,0.2);
-    padding: 10px;
-    border-radius: 8px;
+    justify-content: center;
+    align-items: flex-end; /* Align to the bottom */
+    padding-bottom: 15%; /* Add some space from the bottom */
+    box-sizing: border-box;
+    z-index: 10; /* Ensure it's above the 3D canvas */
 }
 
-.form-group-checkbox input[type="checkbox"],
-.radio-group input[type="radio"] {
-    margin-right: 12px;
-    width: 18px;
-    height: 18px;
+.glowing-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background: var(--service-color);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 10px var(--service-color), 
+                0 0 20px var(--service-color), 
+                0 0 30px var(--accent-color);
+    transition: all 0.3s ease-in-out;
+    animation: pulse 2s infinite;
 }
 
-.form-group-checkbox label,
-.radio-group label {
-    margin-bottom: 0; /* Override default label margin */
-    font-size: 0.95rem;
-    color: #eee;
+.glowing-btn:hover, .glowing-btn:focus {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 20px var(--service-color), 
+                0 0 40px var(--service-color), 
+                0 0 60px var(--accent-color);
 }
 
-.terms-box { /* ... */ }
-.submit-btn, .secondary-btn { /* ... */ }
-.form-navigation { /* ... */ }
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px var(--service-color), 
+                    0 0 20px var(--service-color), 
+                    0 0 30px var(--accent-color);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 20px var(--service-color), 
+                    0 0 40px var(--service-color), 
+                    0 0 60px var(--accent-color);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px var(--service-color), 
+                    0 0 20px var(--service-color), 
+                    0 0 30px var(--accent-color);
+    }
+}
+
+/* Ensure the main app container is behind the intro overlay */
+#app-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* ... (rest of the styles remain the same) ... */
